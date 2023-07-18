@@ -76,7 +76,7 @@
   <header>
     <h1>Scholarship Search</h1>
     <nav>
-      <a href="https://zaelb.github.io/">Home</a>
+      <a href="https://zaelb.github.io/main/">Home</a>
     </nav>
   </header>
 
@@ -107,10 +107,21 @@
         <!-- Add more options here -->
       </select><br>
       
+      <label for="Haschildren">Only Scholarhip for parents and tutors</label>
+      <select id="Haschildren">
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+        <!-- Add more options here -->
+      </select><br>
+
+   
+
       <button type="submit">Search</button>
     </form>
     
-    <div id="results"></div>
+    <div id="results">
+      <!-- Scholarships will be displayed here before the search button is pressed -->
+    </div>
   </main>
 
   <footer>
@@ -124,62 +135,72 @@
         country: "United States",
         field: "Engineering",
         language: "English",
-        description: "This scholarship is for engineering students with a focus on innovation and creativity."
+        description: "This scholarship is for engineering students with a focus on innovation and creativity.",
+        Haschildren: "No"
       },
       {
         name: "Engineering Scholarship 2",
         country: "United States",
         field: "Engineering",
         language: "English",
-        description: "A merit-based scholarship for outstanding engineering students."
+        description: "A merit-based scholarship for outstanding engineering students.",
+        Haschildren: "No"
       },
       {
         name: "Biology Scholarship",
         country: "Canada",
         field: "Biology",
         language: "English",
-        description: "A scholarship for biology students interested in research and conservation."
+        description: "A scholarship for biology students interested in research and conservation.",
+        Haschildren: "No"
       },
       {
         name: "Business Scholarship",
         country: "United Kingdom",
         field: "Business",
         language: "English",
-        description: "This scholarship is for outstanding business students with entrepreneurial aspirations."
+        description: "This scholarship is for outstanding business students with entrepreneurial aspirations.",
+        Haschildren: "No"
       },
       {
         name: "Computer Science Scholarship",
         country: "Australia",
         field: "Computer Science",
         language: "English",
-        description: "A merit-based scholarship for computer science students with a passion for technology."
+        description: "A merit-based scholarship for computer science students with a passion for technology.",
+        Haschildren: "No"
       }
     ];
 
-    const searchForm = document.getElementById("searchForm");
     const resultsDiv = document.getElementById("results");
+    const searchForm = document.getElementById("searchForm");
+
+    // Display all scholarships initially
+    displayResults(scholarships);
 
     searchForm.addEventListener("submit", function(event) {
       event.preventDefault();
-      
-      const country = document.getElementById("country").value;
-      const field = document.getElementById("field").value;
-      const language = document.getElementById("language").value;
-      
-      const matchingScholarships = scholarships.filter(function(scholarship) {
+
+      const country = document.getElementById("country").value.toLowerCase();
+      const field = document.getElementById("field").value.toLowerCase();
+      const language = document.getElementById("language").value.toLowerCase();
+      const hasChildren = document.getElementById("Haschildren").value.toLowerCase();
+
+      const filteredScholarships = scholarships.filter(function(scholarship) {
         return (
-          country.toLowerCase() === scholarship.country.toLowerCase() &&
-          field.toLowerCase() === scholarship.field.toLowerCase() &&
-          language.toLowerCase() === scholarship.language.toLowerCase()
+          country === scholarship.country.toLowerCase() &&
+          field === scholarship.field.toLowerCase() &&
+          language === scholarship.language.toLowerCase() &&
+          hasChildren === scholarship.Haschildren.toLowerCase()
         );
       });
-      
-      displayResults(matchingScholarships);
+
+      displayResults(filteredScholarships);
     });
 
     function displayResults(scholarships) {
       resultsDiv.innerHTML = "";
-      
+
       if (scholarships.length === 0) {
         resultsDiv.innerHTML = "<p>No scholarships found.</p>";
       } else {
@@ -193,7 +214,7 @@
           resultsDiv.appendChild(scholarshipDiv);
         });
       }
-      
+
       resultsDiv.style.display = "block";
     }
   </script>
